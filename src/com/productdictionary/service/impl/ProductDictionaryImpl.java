@@ -24,12 +24,18 @@ public class ProductDictionaryImpl implements ProductDictionary{
         if(existingDictonaryEntry==null) {
             buckets[bucketIndex] = dictonaryEntry;
         } else {
-            while(existingDictonaryEntry!=null) {
+            while(existingDictonaryEntry.getNextEntry()!=null) {
                 if(existingDictonaryEntry.getKey()==key) {
                     existingDictonaryEntry.setValue(value);
+                    return;
                 }
                 existingDictonaryEntry = existingDictonaryEntry.getNextEntry();
             }
+           if(existingDictonaryEntry.getKey()==key) {
+               existingDictonaryEntry.setValue(value);
+           } else {
+               existingDictonaryEntry.setNextEntry(dictonaryEntry);
+           }
         }
     }
 
@@ -50,4 +56,11 @@ public class ProductDictionaryImpl implements ProductDictionary{
         return Integer.valueOf(key).hashCode();
     }
     
+    public static void main(String[] args) {
+        ProductDictionary dictionary = new ProductDictionaryImpl();
+        dictionary.set(1, "Sony TV");
+        dictionary.set(2, "Apple iphone");
+        dictionary.set(17, "Sony TV Bravia");
+        System.out.println(dictionary.get(17));
+    }
 }

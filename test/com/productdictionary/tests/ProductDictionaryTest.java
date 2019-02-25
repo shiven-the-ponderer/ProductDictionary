@@ -12,7 +12,7 @@ import com.productdictionary.service.impl.ProductDictionaryImpl;
 public class ProductDictionaryTest {
     
     @Test
-    public void testDictionaryGetKeySuccess() {
+    public void testDictionaryGetValueSuccess() {
         ProductDictionary dictionary = new ProductDictionaryImpl();
         dictionary.set(1, "Sony TV");
         dictionary.set(2, "Apple iphone");
@@ -22,13 +22,25 @@ public class ProductDictionaryTest {
     }
     
     @Test
-    public void testDictionaryGetKeyNull() {
+    public void testDictionaryGetValueNull() {
         ProductDictionary dictionary = new ProductDictionaryImpl();
         dictionary.set(1, "Sony TV");
         dictionary.set(2, "Apple iphone");
         dictionary.set(1, "Sony TV Bravia");
         assertNull(dictionary.get(3));
         assertEquals(null, dictionary.get(3));
+    }
+    
+    @Test
+    public void testDictionaryGetCollisionBucketIndexValue() {
+        ProductDictionary dictionary = new ProductDictionaryImpl();
+        dictionary.set(1, "Sony TV");
+        dictionary.set(2, "Apple iphone");
+        dictionary.set(17, "Sony TV Bravia");
+        assertNotNull(dictionary.get(17));
+        assertEquals("Sony TV Bravia", dictionary.get(17));
+        assertEquals("Sony TV", dictionary.get(1));
+
     }
 
 }
